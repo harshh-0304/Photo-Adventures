@@ -1,0 +1,5 @@
+{% load i18n %}
+{% load account %}
+
+{% user_display user as user_display %}
+<p><strong>{% trans "Note" %}:</strong> <span style="background-color:#005f08cc;color:#fff;">{% blocktrans %}you are already logged in as {{ user_display }}.</span>{% endblocktrans %}</p>

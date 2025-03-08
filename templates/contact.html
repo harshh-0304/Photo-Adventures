@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Photo Adventures - Contact{% endblock %}
+{% block content %}
+<div class="wrapper my-5 py-5">
+  `<main>
+    <div class="container-md container-contact bg-white rounded-3 box-shadow" data-aos="fade-down">
+      <div class="row g-0">
+        <div class="col col-md mx-4 py-5">
+          <h3 class="card-title mb-3">Contact us</h3>
+          <form onsubmit="return sendMail(this);">
+            <div class="form-floating my-3">
+              <input type="text" name="name" id="fullname" class="form-control" placeholder="John Doe"
+                {% if user.is_authenticated %}value="{{ user_name }}" {% endif %} required>
+              <label for="fullname">Your name:</label>
+            </div>
+            <div class="form-floating my-3">
+              {% if user.is_authenticated %}
+              <input type="email" name="email" id="emailaddress" class="form-control" placeholder="{{ user_email }}"
+                value="{{ user_email }}" required>
+              {% else %}
+              <input type="email" name="email" id="emailaddress" class="form-control" placeholder="email@example.com"
+                required>
+              {% endif %}
+              <label for="emailaddress">Email address:</label>
+            </div>
+            <div class="form-floating my-3">
+              <textarea name="message" id="messagebody" class="form-control" placeholder="Type your message here"
+                style="height: 300px;" required></textarea>
+              <label for="messagebody">Message:</label>
+            </div>
+
+            <button type="submit" class="btn btn-green mt-1"><i class="fa-regular fa-paper-plane"></i> Submit</button>
+            <div class="d-none alert mt-2" id="contactFormAlert" role="alert">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock %}
