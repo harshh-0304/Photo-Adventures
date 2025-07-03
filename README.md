@@ -51,7 +51,7 @@ Installation Steps
 
 Clone the repository:
 
-git clone https://github.com/yourusername/photo-adventures.git
+git clone https://github.com/harshh-0304 /photo-adventures.git
 cd photo-adventures
 
 Create a virtual environment & activate it:
@@ -129,5 +129,5 @@ Create a pull request.
 
 📧 Contact
 
-For any questions or feedback, reach out at harshjadav332004@gmail@.com.
+For any questions or feedback, reach out at harshjadav332004@gmail.com.
 
