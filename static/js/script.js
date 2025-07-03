@@ -3,6 +3,27 @@ $(document).ready(function () {
     const currentYear = new Date().getFullYear();
     $('#currentYear').text(currentYear);
 
+    // Navbar scroll effect
+    const navbar = $('#myNavbar');
+    $(window).on('scroll', function () {
+        if ($(this).scrollTop() > 50) {
+            navbar.addClass('scrolled');
+        } else {
+            navbar.removeClass('scrolled');
+        }
+    });
+
+    // Smooth scroll for anchor links
+    $('a[href^="#"]').on('click', function (e) {
+        const target = $(this).attr('href');
+        if (target !== '#') {
+            e.preventDefault();
+            $('html, body').animate({
+                scrollTop: $(target).offset().top - 70
+            }, 500);
+        }
+    });
+
     // Tooltip for heart icons in full_post template
     $('[data-toggle="tooltip-like"]').tooltip({
         placement: 'left'

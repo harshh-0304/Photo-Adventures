@@ -12,7 +12,7 @@ django-taggit
 gunicorn
 oauthlib
 pillow
-psycopg2
+psycopg2-binary
 PyJWT
 python3-openid
 pytz

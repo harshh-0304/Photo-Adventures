@@ -32,10 +32,11 @@
               class="d-inline-block align-top" alt="Photo Adventures Logo">
           </a>
         </div>
-        <a class="navbar-brand" href="{% url 'home' %}">Photo Adventures</a>
-        <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1">
-          <span class="visually-hidden">Toggle navigation</span>
-          <span class="navbar-toggler-icon"></span></button>
+        <a class="navbar-brand d-lg-none" href="{% url 'home' %}">Photo Adventures</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navcol-1" 
+                aria-controls="navcol-1" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navcol-1">
           <ul class="navbar-nav me-auto">
             <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
@@ -45,19 +46,33 @@
           </ul>
           {% if user.is_authenticated %}
           {% if user.is_authenticated and user.is_superuser %}
-          <a href="{% url 'admin:index' %}" class="btn btn-green me-1">Admin panel</a>
+          <a href="{% url 'admin:index' %}" class="btn btn-green me-1">Admin</a>
           <a href="{% url 'account_logout' %}" class="btn btn-outline-danger me-1">Sign Out</a>
           {% else %}
-          <div class="user-name">
-            <i class="fa-regular fa-user"></i> <span class="d-inline me1">{{ user }}</span>
-            <div class="d-inline gravatar-main ms-1">{{ request.user.email|gravatar }}</div>
+          <div class="user-menu d-flex align-items-center">
+            <div class="dropdown">
+              <button class="btn btn-link dropdown-toggle d-flex align-items-center" type="button" 
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="user-avatar me-2">{{ request.user.email|gravatar:40 }}</span>
+                <span class="d-none d-md-inline">{{ user.username }}</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow">
+                <li><a class="dropdown-item" href="{% url 'user_account' %}">
+                  <i class="fa-solid fa-user me-2"></i>Dashboard</a></li>
+                <li><a class="dropdown-item" href="{% url 'add_post' %}">
+                  <i class="fa-solid fa-plus me-2"></i>New Post</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-danger" href="{% url 'account_logout' %}">
+                  <i class="fa-solid fa-sign-out-alt me-2"></i>Sign Out</a></li>
+              </ul>
+            </div>
           </div>
-          <a href="{% url 'user_account' %}" class="btn btn-outline-green me-1">Dashboard</a>
-          <a href="{% url 'account_logout' %}" class="btn btn-outline-danger">Sign Out</a>
           {% endif %}
           {% else %}
-          <a href="{% url 'account_signup' %}" class="btn btn-outline-green me-1">Sign up</a>
-          <a href="{% url 'account_login' %}" class="btn btn-green">Sign in</a>
+          <div class="d-flex gap-2">
+            <a href="{% url 'account_login' %}" class="btn btn-outline-green">Sign in</a>
+            <a href="{% url 'account_signup' %}" class="btn btn-green">Sign up</a>
+          </div>
           {% endif %}
         </div>
       </div>
@@ -65,14 +80,20 @@
   </header>
   {% if messages %}
   <!-- Message toast start  -->
-  <div class="toast-container position-absolute top-0 end-0 p-3">
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
     {% for message in messages %}
-    <div class="toast mb-2 toast-green text-white" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-header accent-green text-dark">
-        <strong class="me-auto">{{ message.tags }}</strong>
-        <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="toast" aria-label="Close"></button>
+    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" 
+         data-bs-delay="{{ message.tags|default:'3000'|add:1500 }}">
+      <div class="toast-header {% if message.tags == 'success' %}bg-success text-white{% elif message.tags == 'error' %}bg-danger text-white{% else %}bg-light{% endif %}">
+        <strong class="me-auto">
+          {% if message.tags == 'success' %}<i class="fa-solid fa-check-circle me-2"></i>
+          {% elif message.tags == 'error' %}<i class="fa-solid fa-circle-exclamation me-2"></i>
+          {% else %}<i class="fa-solid fa-info-circle me-2"></i>{% endif %}
+          {{ message.tags|title }}
+        </strong>
+        <button type="button" class="btn-close {% if message.tags != 'success' and message.tags != 'error' %}btn-close-dark{% else %}btn-close-white{% endif %}" data-bs-dismiss="toast" aria-label="Close"></button>
       </div>
-      <div class="toast-body text-white">
+      <div class="toast-body">
         {{ message }}
       </div>
     </div>
@@ -82,55 +103,59 @@
   {% endif %}
   {% block content %}
   {% endblock content %}
-  <footer class="footer bg-white">
+  <footer class="footer bg-white py-4">
     <div class="container">
-      <div class="row mt-3">
-        <div class="col-lg-6 col-md-12">
-          <h5>
-            &copy; <span id="currentYear"></span> Copyright Photo Adventures
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-12">
+          <h5 class="mb-3">
+            <img src="https://res.cloudinary.com/ddvsgi5xw/image/upload/v1676895797/logo_zjboqp.png" 
+                 alt="Photo Adventures Logo" height="30" class="me-2">
+            Photo Adventures
           </h5>
-          <address class="footer-address">
-            Harsh Jadav<br>
-            Ahmedabad<br>
-            Phone: <a href="tel:+353555234234" class="nav-item">+353555234234</a><br>
-          </address>
-        </div>
-        <div class="col-lg-3 col-md-6">
-          <h5 class="text-dark">Links</h5>
-          <nav class="footer-nav">
-            <ul class="flex-column list-unstyled">
-              <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'blog' %}">Blog</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-            </ul>
-          </nav>
-        </div>
-        <div class="col-lg-3 col-md-6">
-          <p>
-            <img src="https://res.cloudinary.com/ddvsgi5xw/image/upload/v1676895797/logo_zjboqp.png"
-              alt="Photo Adventures Logo">
-          </p>
-          <ul class="list-inline">
+          <p class="text-muted small">Share your photography adventures with the world.</p>
+          <ul class="list-inline mb-0">
             <li class="list-inline-item">
-              <a href="https://www.facebook.com" target="_blank" class="social-icon" title="Follow us on Facebook"><i
+              <a href="https://www.facebook.com" target="_blank" class="social-icon" title="Facebook"><i
                   class="fa-brands fa-facebook"></i></a>
             </li>
             <li class="list-inline-item">
-              <a href="https://www.instagram.com" target="_blank" class="social-icon" title="Follow us on Instagram"><i
+              <a href="https://www.instagram.com" target="_blank" class="social-icon" title="Instagram"><i
                   class="fa-brands fa-square-instagram"></i></a>
             </li>
             <li class="list-inline-item">
-              <a href="http://www.twitter.com" target="_blank" class="social-icon" title="Follow us on Twitter"><i
+              <a href="http://www.twitter.com" target="_blank" class="social-icon" title="Twitter"><i
                   class="fa-brands fa-twitter"></i></a>
             </li>
             <li class="list-inline-item">
-              <a href="https://telegram.org/" target="_blank" class="social-icon" title="Join us on Telegram"><i
+              <a href="https://telegram.org/" target="_blank" class="social-icon" title="Telegram"><i
                   class="fa-brands fa-telegram"></i></a>
             </li>
           </ul>
         </div>
+        <div class="col-lg-4 col-md-6">
+          <h5 class="text-dark mb-3">Quick Links</h5>
+          <nav class="footer-nav">
+            <ul class="flex-column list-unstyled">
+              <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i class="fa-solid fa-chevron-right me-2"></i>Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'blog' %}"><i class="fa-solid fa-chevron-right me-2"></i>Blog</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'about' %}"><i class="fa-solid fa-chevron-right me-2"></i>About</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}"><i class="fa-solid fa-chevron-right me-2"></i>Contact</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <h5 class="text-dark mb-3">Contact</h5>
+          <address class="footer-address text-muted small">
+            <p class="mb-1"><i class="fa-solid fa-user me-2"></i>Harsh Jadav</p>
+            <p class="mb-1"><i class="fa-solid fa-location-dot me-2"></i>Ahmedabad</p>
+            <p class="mb-0"><i class="fa-solid fa-phone me-2"></i><a href="tel:+353555234234">+353555234234</a></p>
+          </address>
+        </div>
       </div>
+      <hr class="my-4">
+      <p class="text-center text-muted small mb-0">
+        &copy; <span id="currentYear"></span> Photo Adventures. All rights reserved.
+      </p>
     </div>
   </footer>
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"
@@ -147,7 +172,19 @@
     AOS.init({
       duration: 1200,
       delay: 50,
-    })
+    });
+    
+    // Initialize toasts
+    document.addEventListener('DOMContentLoaded', function() {
+      const toastElements = document.querySelectorAll('.toast');
+      toastElements.forEach(function(toastEl) {
+        const toast = new bootstrap.Toast(toastEl, {
+          autohide: true,
+          delay: 4000
+        });
+        toast.show();
+      });
+    });
   </script>
 </body>
 </html>

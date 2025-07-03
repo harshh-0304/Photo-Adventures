@@ -2,44 +2,64 @@
 {% block title %}Photo Adventures - Home{% endblock %}
 
 {% block content %}
-<!-- Carousel start -->
-<div class="carousel slide" data-bs-ride="carousel" id="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item carousel-image bg-img-1 active">
-      <div class="carousel-caption d-md-block" data-aos="fade-up">
-        <h1 class="display-2">Breathtaking Landscapes</h1>
-        <p class="display-6">Nature's masterpiece in all shades of green.</p>
+<!-- Full-bleed Hero start -->
+<header class="hero-hero">
+  <div class="carousel slide" data-bs-ride="carousel" id="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item carousel-image bg-img-1 active" data-bs-interval="6000">
+        <div class="carousel-overlay"></div>
+        <div class="carousel-caption" data-aos="fade-up">
+          <span class="hero-tag">Landscape</span>
+          <h1 class="display-2">Breathtaking Landscapes</h1>
+          <p class="display-6">Nature's masterpiece in all shades of green.</p>
+        </div>
+      </div>
+      <div class="carousel-item carousel-image bg-img-2" data-bs-interval="6000">
+        <div class="carousel-overlay"></div>
+        <div class="carousel-caption" data-aos="fade-up">
+          <span class="hero-tag">Wildlife</span>
+          <h1 class="display-2">The beauty of the wild</h1>
+          <p class="display-6">In the heart of nature, where every living thing has a story to tell.</p>
+        </div>
+      </div>
+      <div class="carousel-item carousel-image bg-img-3" data-bs-interval="6000">
+        <div class="carousel-overlay"></div>
+        <div class="carousel-caption" data-aos="fade-up">
+          <span class="hero-tag">Travel</span>
+          <h1 class="display-2">Travel</h1>
+          <p class="display-6">Discovering the world, one adventure at a time</p>
+        </div>
+      </div>
+      <div class="carousel-item carousel-image bg-img-4" data-bs-interval="6000">
+        <div class="carousel-overlay"></div>
+        <div class="carousel-caption" data-aos="fade-up">
+          <span class="hero-tag">Architecture</span>
+          <h1 class="display-2">Architecture</h1>
+          <p class="display-6">Where the city lights shine bright</p>
+        </div>
       </div>
     </div>
-    <div class="carousel-item carousel-image bg-img-2">
-      <div class="carousel-caption d-md-block" data-aos="fade-up">
-        <h1 class="display-2">The beauty of the wild</h1>
-        <p class="display-6">In the heart of nature, where every living thing has a story to tell.</p>
-      </div>
-    </div>
-    <div class="carousel-item carousel-image bg-img-3">
-      <div class="carousel-caption d-md-block" data-aos="fade-up">
-        <h1 class="display-2">Travel</h1>
-        <p class="display-6">Discovering the world, one adventure at a time</p>
-      </div>
-    </div>
-    <div class="carousel-item carousel-image bg-img-4">
-      <div class="carousel-caption d-md-block" data-aos="fade-up">
-        <h1 class="display-2">Architecture</h1>
-        <p class="display-6">Where the city lights shine bright</p>
-      </div>
-    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
-  <div>
-    <a class="carousel-control-prev" href="#carousel" role="button" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carousel" role="button" data-bs-slide="next">
-      <span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span>
-    </a>
+  <div class="scroll-indicator">
+    <span>Scroll to explore</span>
+    <i class="fa-solid fa-chevron-down"></i>
   </div>
-</div>
-<!-- Carousel end -->
+</header>
+<!-- Full-bleed Hero end -->
 <div class="wrapper">
   <!-- Hero container start -->
   <main>
