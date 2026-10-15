@@ -1275,3 +1275,40 @@ div.card-text a:hover {
         max-width: 100px;
     }
 }
+
+/* Category Badges */
+.badge-adventure { background-color: #e67e22; color: #fff; }
+.badge-travel { background-color: #3498db; color: #fff; }
+.badge-nature { background-color: #27ae60; color: #fff; }
+.badge-landscape { background-color: #16a085; color: #fff; }
+.badge-aerial { background-color: #8e44ad; color: #fff; }
+.badge-wildlife { background-color: #d35400; color: #fff; }
+.badge-street { background-color: #2c3e50; color: #fff; }
+.badge-architecture { background-color: #7f8c8d; color: #fff; }
+
+/* Author Box */
+.author-box {
+    background-color: #f8f9fa;
+    transition: box-shadow 0.2s ease-in-out;
+}
+.author-box:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.avatar-circle {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Post Navigation */
+.post-navigation a {
+    color: #2c3e50;
+    transition: color 0.2s ease-in-out;
+}
+.post-navigation a:hover {
+    color: #0b6623;
+}
