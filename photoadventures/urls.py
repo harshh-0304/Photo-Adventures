@@ -41,6 +41,7 @@ urlpatterns = [
     path('user_account/', views.user_account, name='user_account'),
     path('add_post/', views.add_post, name='add_post'),
 
-    # seo urls
+    # seo & health urls
     path('robots.txt', views.robots_txt, name='robots_txt'),
+    path('health/', views.health_check, name='health_check'),
 ]

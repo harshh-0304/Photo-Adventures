@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views import generic, View
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.db import connection
 from blog import constants as CONST
 from django.db.models import Count
 from .models import Post, Comment
@@ -307,4 +308,21 @@ def robots_txt(request):
         "Allow: /",
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
+
+
+def health_check(request):
+    """System liveness probe verifying database connectivity."""
+    db_status = "ok"
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+    except Exception as e:
+        db_status = f"error: {str(e)}"
+        return JsonResponse({"status": "unhealthy", "database": db_status}, status=503)
+
+    return JsonResponse({
+        "status": "healthy",
+        "database": db_status,
+        "service": "Photo Adventures",
+    })
 
