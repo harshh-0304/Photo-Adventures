@@ -57,10 +57,20 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'body', 'post', 'created_on', 'approved')
     list_filter = ('approved', 'created_on', 'name')
     search_fields = ('name', 'email', 'body')
-    actions = ['approve_comments']
+    list_per_page = 25
+    actions = ['approve_comments', 'disapprove_comments']
 
+    @admin.action(description='Approve selected comments')
     def approve_comments(self, request, queryset):
         """
-        Method used to filter approved comments
+        Action to bulk approve selected comments.
         """
         queryset.update(approved=True)
+
+    @admin.action(description='Disapprove selected comments')
+    def disapprove_comments(self, request, queryset):
+        """
+        Action to bulk disapprove selected comments.
+        """
+        queryset.update(approved=False)
+
