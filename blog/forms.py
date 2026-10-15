@@ -10,6 +10,26 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('body',)
+        widgets = {
+            'body': forms.Textarea(
+                attrs={
+                    'rows': 3,
+                    'class': 'form-control',
+                    'placeholder': 'Share your thoughts on this adventure...',
+                    'aria-label': 'Write your comment',
+                }
+            )
+        }
+
+    def clean_body(self):
+        """
+        Ensure comment body is not empty or whitespace only.
+        """
+        body = self.cleaned_data.get('body', '').strip()
+        if not body:
+            raise forms.ValidationError('Comment body cannot be blank.')
+        return body
+
 
 
 class PostForm(forms.ModelForm):
