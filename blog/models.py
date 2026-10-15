@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 from blog import constants as CONST
 from taggit.managers import TaggableManager
@@ -39,6 +40,14 @@ class Post(models.Model):
         Method to return string object
         """
         return self.title
+
+    def save(self, *args, **kwargs):
+        """
+        Auto-generate URL slug from title if not explicitly provided.
+        """
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     def number_of_likes(self):
         """
