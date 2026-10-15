@@ -64,6 +64,16 @@ TAGGIT_CASE_INSENSITIVE = False
 
 # Page can only be displayed within an iframe on its own domain
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+SECURE_BROWSER_XSS_FILTER = True
+X_CONTENT_TYPE_OPTIONS = 'nosniff'
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = True
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost:8000,http://127.0.0.1:8000').split(',')
+    if origin.strip()
+]
 
 # Summernote configuration to override default font style
 # and match website style
