@@ -53,3 +53,29 @@ class PostForm(forms.ModelForm):
                        'Ireland'}),
             'content': SummernoteWidget(),
         }
+
+    def clean_title(self):
+        """
+        Ensure title has sufficient length and is stripped.
+        """
+        title = self.cleaned_data.get('title', '').strip()
+        if len(title) < 3:
+            raise forms.ValidationError('Post title must be at least 3 characters long.')
+        return title
+
+    def clean_featured_image(self):
+        """
+        Validate uploaded image size (max 5MB) and supported extension.
+        """
+        image = self.cleaned_data.get('featured_image')
+        if image and hasattr(image, 'size'):
+            max_size = 5 * 1024 * 1024  # 5 MB
+            if image.size > max_size:
+                raise forms.ValidationError('Image file size must not exceed 5MB.')
+            valid_extensions = ('.jpg', '.jpeg', '.png', '.webp', '.gif')
+            if not image.name.lower().endswith(valid_extensions):
+                raise forms.ValidationError(
+                    f'Unsupported image format. Allowed formats: {", ".join(valid_extensions)}'
+                )
+        return image
+
