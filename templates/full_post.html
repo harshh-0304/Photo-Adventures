@@ -14,6 +14,7 @@
 {% load crispy_forms_tags %}
 {% load gravatar %}
 {% load social_share %}
+{% load blog_extras %}
 <!-- Reading Progress Indicator -->
 <div class="reading-progress" id="readingProgress">
   <div class="reading-progress-bar" id="readingProgressBar"></div>
@@ -31,14 +32,21 @@
   {% endif %}
   <div class="featured-image-overlay"></div>
   <div class="featured-image-content">
-    <span class="post-category">{{ post.category }}</span>
+    <span class="post-category"><a href="{% url 'category_posts' post.category %}" class="text-white text-decoration-none">{{ post.category|title }}</a></span>
     <h1 class="post-title">{{ post.title }}</h1>
     <div class="post-meta-data">
-      <span><i class="fa-regular fa-user"></i> {{ post.author }}</span>
+      <span><a href="{% url 'author_posts' post.author.username %}" class="text-white text-decoration-none"><i class="fa-regular fa-user"></i> {{ post.author }}</a></span>
       <span><i class="fa-regular fa-calendar-check"></i> {{ post.created_on }}</span>
+      <span><i class="fa-regular fa-clock"></i> {{ post|reading_badge }}</span>
+      <span><i class="fa-regular fa-eye"></i> {{ post.view_count }} views</span>
       <span><i class="far fa-heart"></i> {{ post.number_of_likes }}</span>
       <span><i class="far fa-comments"></i> {{ post.number_of_comments }}</span>
     </div>
+    {% if is_preview %}
+    <div class="alert alert-warning text-center mt-3 py-2" role="alert">
+      <i class="fa-solid fa-triangle-exclamation"></i> <strong>Draft Preview:</strong> This post is not yet published. Only you and moderators can view it.
+    </div>
+    {% endif %}
   </div>
 </div>
 
@@ -56,8 +64,43 @@
               {% endfor %}
             </div>
             {% endif %}
-            <!-- Comment section start -->
+            <!-- Post content start -->
             <div class="card-text post-content">{{ post.content | safe }}</div>
+
+            <!-- Author Box Start -->
+            <div class="author-box my-4 p-4 rounded-3 border bg-light">
+              <div class="d-flex align-items-center">
+                <div class="me-3">
+                  <div class="avatar-circle">
+                    <i class="fa-solid fa-user fa-2x text-muted"></i>
+                  </div>
+                </div>
+                <div>
+                  <h5 class="mb-1">Written by <a href="{% url 'author_posts' post.author.username %}" class="text-green text-decoration-none">{{ post.author.username }}</a></h5>
+                  <p class="text-muted small mb-0">Discover more photography stories and travel adventures from {{ post.author.username }}.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Previous and Next Navigation Start -->
+            {% if previous_post or next_post %}
+            <div class="row post-navigation my-4 pt-3 border-top g-3">
+              <div class="col-6 text-start">
+                {% if previous_post %}
+                <small class="text-muted text-uppercase d-block mb-1"><i class="fa-solid fa-arrow-left"></i> Previous Adventure</small>
+                <a href="{% url 'full_post' previous_post.slug %}" class="fw-bold text-decoration-none text-dark">{{ previous_post.title }}</a>
+                {% endif %}
+              </div>
+              <div class="col-6 text-end">
+                {% if next_post %}
+                <small class="text-muted text-uppercase d-block mb-1">Next Adventure <i class="fa-solid fa-arrow-right"></i></small>
+                <a href="{% url 'full_post' next_post.slug %}" class="fw-bold text-decoration-none text-dark">{{ next_post.title }}</a>
+                {% endif %}
+              </div>
+            </div>
+            {% endif %}
+            <!-- Navigation End -->
+
             <div class="row">
               <div class="col-sm-8 my-5">
                 <h3><i class="fa-regular fa-comments mb-3"></i> Comments:</h3>
