@@ -51,6 +51,14 @@ class Post(models.Model):
         """
         return self.comments.filter(approved=True).count()
 
+    @property
+    def reading_time(self):
+        """
+        Estimate reading time in minutes based on average 200 words per minute.
+        """
+        words = len(self.content.split()) if self.content else 0
+        return max(1, round(words / 200))
+
 
 class TaggedPost(TaggedItemBase):
     """
