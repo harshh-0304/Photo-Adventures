@@ -1,133 +1,171 @@
+# 📷 Photo Adventures
 
-Photo Adventures
+[![Django CI](https://github.com/harshh-0304/Photo-Adventures/actions/workflows/django_ci.yml/badge.svg)](https://github.com/harshh-0304/Photo-Adventures/actions/workflows/django_ci.yml)
+[![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12-blue.svg)](https://www.python.org/)
+[![Django](https://img.shields.io/badge/Django-6.0+-green.svg)](https://www.djangoproject.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-📸 About the Project
+**Photo Adventures** is an interactive photography community and blogging platform built with Django. Photographers, travelers, and storytellers can publish adventures, discover content by category or location, discuss photography techniques, and share stunning visuals.
 
-Photo Adventures is a web-based platform where users can share their photography experiences through blog posts. The project is built using Django, integrating cloud storage for image hosting, user authentication, social sharing, and an interactive commenting system.
+---
 
-🚀 Features
+## 🚀 Key Features
 
-User Authentication: Secure login and signup using Django AllAuth.
+- **User Accounts & Authentication**: Secure registration, login, profile management, and password reset workflows powered by `django-allauth`.
+- **Adventure Publishing (CRUD)**: Create, preview, edit, and manage photo stories with draft saving and moderation status workflows.
+- **Dynamic Reading Estimation**: Automatic reading time calculation on posts based on word count.
+- **Real-Time Popularity & View Counting**: Post views are tracked atomically and displayed alongside like counters and comment counts.
+- **Search & Filtering**:
+  - Full-text keyword search across titles, captions, content, and locations.
+  - Category-based browsing (Landscape, Wildlife, Travel, Architecture, Aerial, Street, Nature, Adventure).
+  - Hashtag taxonomy powered by `django-taggit`.
+  - Author profile archives.
+- **Interactive Discussion**: Moderated comment system with Gravatar avatar integration and bulk admin moderation tools.
+- **Adjacent Adventure Navigation**: Seamless previous/next story navigation on every article.
+- **JSON API**: Public REST endpoint for trending adventures (`/blog/api/posts/trending/`).
+- **SEO & Observability**:
+  - Built-in `robots.txt` and XML sitemap generator endpoints.
+  - Production `/health/` monitoring endpoint for uptime probes.
+  - Open Graph social metadata for rich link previews.
 
-CRUD Functionality: Users can create, edit, and delete blog posts.
+---
 
-Image Uploads: Cloudinary integration for seamless image storage.
+## 🛠️ Tech Stack
 
-Like & Comment System: Users can interact with posts through likes and comments.
+- **Backend Framework**: Django 6.x / Python 3.11 & 3.12
+- **Database**: PostgreSQL (production) / SQLite (development)
+- **Frontend & Styling**: HTML5, Vanilla CSS, Bootstrap 5, FontAwesome 6, AOS (Animate on Scroll)
+- **Media & Assets**: Cloudinary (`dj3-cloudinary-storage`), Gravatar
+- **CI / CD**: GitHub Actions (`django_ci.yml`)
+- **WSGI / Deployment**: Gunicorn, WhiteNoise / Cloudinary
 
-Tagging & Categories: Posts can be categorized and tagged for better discoverability.
+---
 
-Social Sharing: Users can share their posts on social media.
+## 📁 Repository Structure
 
-Admin Dashboard: A Django-admin panel for managing content.
+```text
+Photo-Adventures/
+├── .github/
+│   └── workflows/
+│       └── django_ci.yml       # Automated GitHub Actions test workflow
+├── blog/
+│   ├── migrations/             # Database schema migrations
+│   ├── templatetags/           # Custom template filters (blog_extras, gravatar)
+│   ├── tests/                  # Automated test suite (models, views, forms, comments)
+│   ├── admin.py                # Post and Comment administration & bulk actions
+│   ├── constants.py            # Categories, status codes, and pagination config
+│   ├── forms.py                # PostForm and CommentForm with validation rules
+│   ├── models.py               # Post, Comment, and custom PostQuerySet
+│   ├── urls.py                 # URL patterns for blog routes and API endpoints
+│   └── views.py                # Class-based and function-based views
+├── photoadventures/
+│   ├── settings.py             # Project settings with secure environment fallbacks
+│   ├── urls.py                 # Root URL configuration and health endpoints
+│   └── wsgi.py                 # WSGI entry point for web servers
+├── static/                     # CSS, JavaScript, and custom styling
+├── templates/                  # Base and application HTML templates
+├── manage.py                   # Django CLI management script
+├── requirements.txt            # Python dependencies
+└── README.md                   # Project documentation
+```
 
-Custom 404 Page: Enhanced user experience with a friendly error page.
+---
 
-🛠️ Tech Stack
+## 📦 Getting Started
 
-Backend: Django, Django REST Framework
+### 1. Prerequisites
 
-Frontend: Bootstrap, JavaScript
+- Python 3.11+
+- Git
+- Virtual environment (`venv`)
 
-Database: PostgreSQL
+### 2. Clone and Setup
 
-Hosting & Deployment: Gunicorn, Heroku
+```bash
+# Clone the repository
+git clone https://github.com/harshh-0304/Photo-Adventures.git
+cd Photo-Adventures
 
-Cloud Storage: Cloudinary
+# Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-Authentication: OAuth with Django AllAuth
-
-📦 Installation & Setup
-
-Prerequisites
-
-Python 3.x
-
-PostgreSQL
-
-Virtual Environment (venv or pipenv)
-
-Installation Steps
-
-Clone the repository:
-
-git clone https://github.com/harshh-0304 /photo-adventures.git
-cd photo-adventures
-
-Create a virtual environment & activate it:
-
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-
-Install dependencies:
-
+# Install required packages
 pip install -r requirements.txt
+```
 
-Set up environment variables:
-Create a .env file and configure:
+### 3. Environment Configuration
 
-SECRET_KEY=your-secret-key
+Create a `.env` file or export the following variables:
+
+```bash
+SECRET_KEY=your-secure-random-secret-key
 DEBUG=True
-DATABASE_URL=your-postgres-url
-CLOUDINARY_URL=your-cloudinary-url
+DATABASE_URL=sqlite:///db.sqlite3  # or postgres://user:password@localhost:5432/dbname
+CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
+```
 
-Apply migrations:
+### 4. Database Setup & Migrations
 
+```bash
 python manage.py migrate
+python manage.py createsuperuser  # Optional, for admin dashboard access
+```
 
-Create a superuser (optional for admin access):
+### 5. Run the Local Development Server
 
-python manage.py createsuperuser
-
-Run the server:
-
+```bash
 python manage.py runserver
+```
 
-🔍 Testing
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
 
-Run the following command to execute tests:
+---
 
+## 🧪 Running Automated Tests
+
+Run the full automated test suite:
+
+```bash
 python manage.py test
+```
 
-🚀 Deployment
+To run individual test modules:
 
-This project is configured for deployment on Heroku.
+```bash
+python manage.py test blog.tests.test_models    # Post model & custom queryset tests
+python manage.py test blog.tests.test_comments  # Comment relation & truncation tests
+python manage.py test blog.tests.test_views     # Page & API integration tests
+python manage.py test blog.tests.test_forms     # PostForm and CommentForm tests
+```
 
-Install Heroku CLI and login:
+---
 
-heroku login
+## 🌐 API & Utility Endpoints
 
-Create a Heroku app and push the code:
+| Endpoint | Method | Description |
+| :--- | :--- | :--- |
+| `/health/` | `GET` | System health check returning database status |
+| `/robots.txt` | `GET` | Search engine crawler instructions and sitemap link |
+| `/sitemap.xml` | `GET` | XML sitemap of all published adventure stories |
+| `/blog/api/posts/trending/` | `GET` | JSON API returning top trending posts |
+| `/blog/search/?q=<query>` | `GET` | Keyword search across titles, content & locations |
+| `/blog/category/<name>/` | `GET` | Filter stories by category |
+| `/blog/author/<username>/` | `GET` | Author story archives |
 
-heroku create your-app-name
-git push heroku main
+---
 
-Set up environment variables:
+## 🤝 Contributing
 
-heroku config:set SECRET_KEY=your-secret-key
-heroku config:set DATABASE_URL=your-postgres-url
+Contributions are welcome!
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Run migrations on Heroku:
+---
 
-heroku run python manage.py migrate
+## 📄 License
 
-📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-🤝 Contributing
-
-Fork the repository.
-
-Create a feature branch (git checkout -b feature-branch).
-
-Commit your changes (git commit -m 'Add some feature').
-
-Push to the branch (git push origin feature-branch).
-
-Create a pull request.
-
-📧 Contact
-
-For any questions or feedback, reach out at harshjadav332004@gmail.com.
-
+Distributed under the MIT License. See `LICENSE` for more information.
