@@ -9,7 +9,7 @@ urlpatterns = [
 
     # full post urls
     path('<slug:slug>/', views.FullPost.as_view(), name='full_post'),
-    path('like/<slug:slug>', views.PostLike.as_view(), name='post_like'),
+    path('like/<slug:slug>/', views.PostLike.as_view(), name='post_like'),
 
     # add, edit, delete urls
     path('add_post/', views.add_post, name='add_post'),
