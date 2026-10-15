@@ -131,6 +131,7 @@ class Comment(models.Model):
 
     def __str__(self):
         """
-        Method to return string
+        Method to return string representation with safe preview
         """
-        return f'Comment {self.body} by {self.name}'
+        preview = self.body[:40] + ('...' if len(self.body) > 40 else '')
+        return f'Comment "{preview}" by {self.name}'
