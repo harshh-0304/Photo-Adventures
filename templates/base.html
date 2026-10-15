@@ -44,6 +44,14 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
           </ul>
+          <form class="d-flex me-lg-3 my-2 my-lg-0" action="{% url 'search_posts' %}" method="get" role="search">
+            <div class="input-group input-group-sm">
+              <input class="form-control" type="search" name="q" placeholder="Search adventures..." aria-label="Search posts" value="{{ search_query|default:'' }}">
+              <button class="btn btn-outline-green" type="submit" aria-label="Submit search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </div>
+          </form>
           {% if user.is_authenticated %}
           {% if user.is_authenticated and user.is_superuser %}
           <a href="{% url 'admin:index' %}" class="btn btn-green me-1">Admin</a>
