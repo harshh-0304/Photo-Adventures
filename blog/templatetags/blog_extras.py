@@ -35,3 +35,26 @@ def strip_tags_summary(html_content, word_limit=30):
     if len(words) <= word_limit:
         return " ".join(words)
     return " ".join(words[:word_limit]) + "..."
+
+
+CATEGORY_CLASSES = {
+    'adventure': 'badge-adventure',
+    'travel': 'badge-travel',
+    'nature': 'badge-nature',
+    'landscape': 'badge-landscape',
+    'aerial': 'badge-aerial',
+    'wildlife': 'badge-wildlife',
+    'street': 'badge-street',
+    'architecture': 'badge-architecture',
+}
+
+
+@register.filter(name='category_css')
+def category_css(category):
+    """
+    Return a distinct CSS class name for a given category.
+    """
+    if not category:
+        return 'badge-secondary'
+    return CATEGORY_CLASSES.get(str(category).lower(), 'badge-secondary')
+
