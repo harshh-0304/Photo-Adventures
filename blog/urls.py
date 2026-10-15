@@ -29,6 +29,10 @@ urlpatterns = [
     path('author/<str:username>/',
          views.AuthorPosts.as_view(), name='author_posts'),
 
+    # JSON API routes
+    path('api/posts/trending/',
+         views.api_trending_posts, name='api_trending_posts'),
+
     # allauth urls
     path('accounts/password_reset/',
          auth_views.PasswordResetView.as_view(), name='password_reset'),

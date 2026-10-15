@@ -87,6 +87,29 @@ class AuthorPosts(generic.ListView):
         return context
 
 
+def api_trending_posts(request):
+    """
+    JSON API endpoint returning the top 5 trending posts.
+    """
+    trending = Post.objects.filter(status=2).order_by('-view_count', '-created_on')[:5]
+    data = [
+        {
+            'id': post.id,
+            'title': post.title,
+            'slug': post.slug,
+            'author': post.author.username,
+            'category': post.category,
+            'view_count': post.view_count,
+            'likes_count': post.number_of_likes(),
+            'reading_time': post.reading_time,
+            'url': post.get_absolute_url(),
+        }
+        for post in trending
+    ]
+    return JsonResponse({'status': 'success', 'count': len(data), 'posts': data})
+
+
+
 
 
 
