@@ -51,6 +51,25 @@ class SearchPosts(generic.ListView):
         return context
 
 
+class CategoryPosts(generic.ListView):
+    """
+    Class view to list published posts filtered by category.
+    """
+    model = Post
+    template_name = CONST.BLOG
+    paginate_by = CONST.PAGINATION
+
+    def get_queryset(self):
+        category = self.kwargs.get('category', '').lower()
+        return Post.objects.filter(category=category, status=2).order_by('-created_on')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_category'] = self.kwargs.get('category', '')
+        return context
+
+
+
 
 class PostList(generic.ListView):
     """

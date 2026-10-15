@@ -21,6 +21,10 @@ urlpatterns = [
     path('tag/<slug:tag_slug>/',
          views.TaggedPosts.as_view(), name='tagged_posts'),
 
+    # posts list by category
+    path('category/<str:category>/',
+         views.CategoryPosts.as_view(), name='category_posts'),
+
     # allauth urls
     path('accounts/password_reset/',
          auth_views.PasswordResetView.as_view(), name='password_reset'),
