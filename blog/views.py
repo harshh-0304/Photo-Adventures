@@ -3,7 +3,7 @@ from django.views import generic, View
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.db import connection
 from blog import constants as CONST
-from django.db.models import Count
+from django.db.models import Count, F, Q
 from .models import Post, Comment
 from .forms import CommentForm, PostForm
 from django.contrib.auth.models import User
@@ -101,6 +101,8 @@ class FullPost(View):
         """
         queryset = Post.objects.filter(status=2)  # 2 == published
         post = get_object_or_404(queryset, slug=slug)
+        Post.objects.filter(pk=post.pk).update(view_count=F('view_count') + 1)
+        post.refresh_from_db(fields=['view_count'])
         comments = post.comments.filter(approved=True).order_by('created_on')
         liked = post.likes.filter(id=self.request.user.id).exists()
 
