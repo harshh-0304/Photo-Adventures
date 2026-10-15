@@ -76,6 +76,13 @@ class Post(models.Model):
         """
         return reverse('full_post', args=[self.slug])
 
+    @property
+    def is_published(self):
+        """
+        Check if the post has been approved and published.
+        """
+        return self.status == 2
+
 
 class TaggedPost(TaggedItemBase):
     """
