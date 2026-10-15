@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django.urls import reverse
 
 from blog import constants as CONST
 from taggit.managers import TaggableManager
@@ -68,6 +69,12 @@ class Post(models.Model):
         """
         words = len(self.content.split()) if self.content else 0
         return max(1, round(words / 200))
+
+    def get_absolute_url(self):
+        """
+        Return the canonical URL for a post.
+        """
+        return reverse('full_post', args=[self.slug])
 
 
 class TaggedPost(TaggedItemBase):
