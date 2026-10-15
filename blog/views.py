@@ -194,6 +194,10 @@ class FullPost(View):
         comments = post.comments.filter(approved=True).order_by('created_on')
         liked = post.likes.filter(id=self.request.user.id).exists()
 
+        meta_description = post.excerpt if post.excerpt else post.content[:150]
+        meta_image_url = request.build_absolute_uri(post.featured_image.url) if post.featured_image else None
+        canonical_url = request.build_absolute_uri(post.get_absolute_url())
+
         return render(
             request,
             CONST.FULL_POST,
@@ -202,7 +206,10 @@ class FullPost(View):
                 'comments': comments,
                 'commented': False,
                 'liked': liked,
-                'comment_form': CommentForm()
+                'comment_form': CommentForm(),
+                'meta_description': meta_description,
+                'meta_image_url': meta_image_url,
+                'canonical_url': canonical_url,
             },
         )
 
