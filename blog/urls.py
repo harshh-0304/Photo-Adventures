@@ -25,6 +25,10 @@ urlpatterns = [
     path('category/<str:category>/',
          views.CategoryPosts.as_view(), name='category_posts'),
 
+    # posts list by author
+    path('author/<str:username>/',
+         views.AuthorPosts.as_view(), name='author_posts'),
+
     # allauth urls
     path('accounts/password_reset/',
          auth_views.PasswordResetView.as_view(), name='password_reset'),

@@ -69,6 +69,25 @@ class CategoryPosts(generic.ListView):
         return context
 
 
+class AuthorPosts(generic.ListView):
+    """
+    Class view to list published posts by a specific author username.
+    """
+    model = Post
+    template_name = CONST.BLOG
+    paginate_by = CONST.PAGINATION
+
+    def get_queryset(self):
+        self.author_user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Post.objects.filter(author=self.author_user, status=2).order_by('-created_on')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['author_user'] = getattr(self, 'author_user', None)
+        return context
+
+
+
 
 
 class PostList(generic.ListView):
