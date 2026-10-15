@@ -187,10 +187,18 @@ class FullPost(View):
         Method represents a view that displays a single blog post
         It gets published posts with specific slug, comments and likes
         """
-        queryset = Post.objects.filter(status=2)  # 2 == published
+        if request.user.is_authenticated and request.user.is_staff:
+            queryset = Post.objects.all()
+        elif request.user.is_authenticated:
+            queryset = Post.objects.filter(Q(status=2) | Q(author=request.user))
+        else:
+            queryset = Post.objects.filter(status=2)
+
         post = get_object_or_404(queryset, slug=slug)
-        Post.objects.filter(pk=post.pk).update(view_count=F('view_count') + 1)
-        post.refresh_from_db(fields=['view_count'])
+        if post.status == 2:
+            Post.objects.filter(pk=post.pk).update(view_count=F('view_count') + 1)
+            post.refresh_from_db(fields=['view_count'])
+
         comments = post.comments.filter(approved=True).order_by('created_on')
         liked = post.likes.filter(id=self.request.user.id).exists()
 
@@ -217,6 +225,7 @@ class FullPost(View):
                 'canonical_url': canonical_url,
                 'previous_post': previous_post,
                 'next_post': next_post,
+                'is_preview': post.status != 2,
             },
         )
 
