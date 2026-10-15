@@ -198,6 +198,11 @@ class FullPost(View):
         meta_image_url = request.build_absolute_uri(post.featured_image.url) if post.featured_image else None
         canonical_url = request.build_absolute_uri(post.get_absolute_url())
 
+        previous_post = Post.objects.filter(
+            status=2, created_on__lt=post.created_on).order_by('-created_on').first()
+        next_post = Post.objects.filter(
+            status=2, created_on__gt=post.created_on).order_by('created_on').first()
+
         return render(
             request,
             CONST.FULL_POST,
@@ -210,6 +215,8 @@ class FullPost(View):
                 'meta_description': meta_description,
                 'meta_image_url': meta_image_url,
                 'canonical_url': canonical_url,
+                'previous_post': previous_post,
+                'next_post': next_post,
             },
         )
 
