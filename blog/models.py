@@ -8,6 +8,23 @@ from taggit.managers import TaggableManager
 from taggit.models import TaggedItemBase
 
 
+class PostQuerySet(models.QuerySet):
+    """
+    Custom QuerySet for Post model providing reusable domain query filters.
+    """
+    def published(self):
+        return self.filter(status=2)
+
+    def drafts(self):
+        return self.filter(status=0)
+
+    def trending(self):
+        return self.filter(status=2).order_by('-view_count', '-created_on')
+
+    def featured(self):
+        return self.filter(status=2, featured=True)
+
+
 class Post(models.Model):
     """
     Model of the blog post
@@ -29,6 +46,8 @@ class Post(models.Model):
     featured = models.BooleanField(default=False, verbose_name='featured post')
     view_count = models.PositiveIntegerField(default=0)
     tags = TaggableManager()
+
+    objects = PostQuerySet.as_manager()
 
     class Meta:
         """
