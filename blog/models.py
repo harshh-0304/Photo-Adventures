@@ -25,6 +25,7 @@ class Post(models.Model):
     status = models.IntegerField(choices=CONST.STATUS, default=0)
     likes = models.ManyToManyField(User, related_name='post_likes', blank=True)
     featured = models.BooleanField(default=False, verbose_name='featured post')
+    view_count = models.PositiveIntegerField(default=0)
     tags = TaggableManager()
 
     class Meta:
