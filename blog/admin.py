@@ -9,10 +9,11 @@ class PostAdmin(SummernoteModelAdmin):
     Class to customize post display in admin panel
     """
     prepopulated_fields = {'slug': ('title', )}
-    list_filter = ('status', 'author', 'category', 'created_on')
+    list_filter = ('status', 'featured', 'author', 'category', 'created_on')
     list_display = ('title', 'slug', 'author', 'category', 'get_tags',
-                    'featured', 'status', 'created_on')
-    search_fields = ('title', 'content')
+                    'featured', 'view_count', 'status', 'created_on')
+    search_fields = ('title', 'content', 'location', 'author__username')
+    readonly_fields = ('view_count', 'created_on', 'updated_on')
     summernote_fields = ('content')
 
     def get_tags(self, obj):
