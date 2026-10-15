@@ -40,4 +40,7 @@ urlpatterns = [
     # user dashboard urls
     path('user_account/', views.user_account, name='user_account'),
     path('add_post/', views.add_post, name='add_post'),
+
+    # seo urls
+    path('robots.txt', views.robots_txt, name='robots_txt'),
 ]

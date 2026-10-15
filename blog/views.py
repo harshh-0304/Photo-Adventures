@@ -295,3 +295,16 @@ class TaggedPosts(generic.ListView):
         context = super(TaggedPosts, self).get_context_data(**kwargs)
         context['tag'] = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
         return context
+
+
+def robots_txt(request):
+    """Serve robots.txt file for search engine web crawlers."""
+    lines = [
+        "User-agent: *",
+        "Disallow: /admin/",
+        "Disallow: /accounts/",
+        "Disallow: /summernote/",
+        "Allow: /",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
