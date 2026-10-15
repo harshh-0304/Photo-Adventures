@@ -25,6 +25,33 @@ class BlogPosts(generic.ListView,):
     paginate_by = CONST.PAGINATION
 
 
+class SearchPosts(generic.ListView):
+    """
+    Search published posts by title, content, location, or excerpt.
+    """
+    model = Post
+    template_name = CONST.BLOG
+    paginate_by = CONST.PAGINATION
+
+    def get_queryset(self):
+        query = self.request.GET.get('q', '').strip()
+        if query:
+            return Post.objects.filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(location__icontains=query) |
+                Q(excerpt__icontains=query),
+                status=2
+            ).order_by('-created_on')
+        return Post.objects.filter(status=2).order_by('-created_on')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_query'] = self.request.GET.get('q', '')
+        return context
+
+
+
 class PostList(generic.ListView):
     """
     Class represents a view that lists all published posts

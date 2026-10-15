@@ -6,6 +6,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     # blog page with posts list url
     path('', views.BlogPosts.as_view(), name='blog'),
+    path('search/', views.SearchPosts.as_view(), name='search_posts'),
 
     # full post urls
     path('<slug:slug>/', views.FullPost.as_view(), name='full_post'),
